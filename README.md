@@ -1,7 +1,7 @@
 # Environment-Configuration-Lab1
 
 # 1.1 Define the development and production environments using namespaces.
-kubectl create namespace production
+bash ``` kubectl create namespace production
 # 1. 2 Configure Environment-Specific ConfigMaps
 kubectl create configmap app-config \
   --from-literal=APP_ENV=production \
