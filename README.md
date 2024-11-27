@@ -1,14 +1,13 @@
 # Environment-Configuration-Lab1
 
-# 1 Create dev and prod environment and configurations
-  # 1.1 Define the development and production environments using namespaces.
-  kubectl create namespace production
-  # 1. 2 Configure Environment-Specific ConfigMaps
-  kubectl create configmap app-config \
-    --from-literal=APP_ENV=production \
-    --namespace=production
+# 1.1 Define the development and production environments using namespaces.
+kubectl create namespace production
+# 1. 2 Configure Environment-Specific ConfigMaps
+kubectl create configmap app-config \
+  --from-literal=APP_ENV=production \
+  --namespace=production
 
-# 2 Define sensitive information (like database passwords) as Secrets
+# 2 Define sensitive information as secrets
 kubectl create secret generic app-secret \
   --from-literal=DB_PASSWORD=prodpassword123 \
   --namespace=production
@@ -71,6 +70,6 @@ kubectl expose deployment nginx-app \
 kubectl get pods -n production
 kubectl get service -n production
 
-kubectl exec -it nginx-app-65968468b6-46pgj -n production -- /bin/bash
+kubectl exec -it <pod-name> -n production -- /bin/bash
 echo $APP_ENV
 echo $DB_PASSWORD
