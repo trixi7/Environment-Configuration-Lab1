@@ -1,28 +1,28 @@
 # Environment-Configuration-Lab1
 
-# Create dev and prod environment and configurations
-  # Define the development and production environments using namespaces.
+# 1 Create dev and prod environment and configurations
+  # 1.1 Define the development and production environments using namespaces.
   kubectl create namespace production
-  # Configure Environment-Specific ConfigMaps
+  # 1. 2Configure Environment-Specific ConfigMaps
   kubectl create configmap app-config \
     --from-literal=APP_ENV=production \
     --namespace=production
 
-# Define sensitive information (like database passwords) as Secrets
+# 2 Define sensitive information (like database passwords) as Secrets
 kubectl create secret generic app-secret \
   --from-literal=DB_PASSWORD=prodpassword123 \
   --namespace=production
 
-# View all secrets per environment
+# 3 View all secrets per environment
 kubectl get secrets -n production
 
-# View the metadata of the secret
+# 4 View the metadata of the secret
 kubectl describe secret app-secret -n production
 
-# Decode secret
+# 5 Decode secret
 kubectl get secret app-secret -n production -o jsonpath="{.data.DB_PASSWORD}" | base64 --decode
 
-# Create a generic deployment YAML template named app-deployment-template.yaml
+# 6 Create a generic deployment YAML template named app-deployment-template.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -53,14 +53,13 @@ spec:
               name: app-secret
               key: DB_PASSWORD
 
-# Replace the generic yaml template and deploy
-# Set Replica to 3
+# 7 Replace the generic yaml template and deploy + Set Replica to 3
 sed -e 's/PLACEHOLDER_NAMESPACE/production/‘ \
     -e 's/replicas: .*$/replicas: 3/‘ app-deployment-template.yaml > production-deployment.yaml
 
 kubectl apply -f production-deployment.yaml
 
-# Expose the stagin environment
+# 8 Expose the stagin environment
 kubectl expose deployment nginx-app \
   --type=NodePort \
   --name=nginx-service \
@@ -68,7 +67,7 @@ kubectl expose deployment nginx-app \
   --target-port=80 \
   --namespace=production
 
-# Verify the deployment and access
+# 9 Verify the deployment and access
 kubectl get pods -n production
 kubectl get service -n production
 
