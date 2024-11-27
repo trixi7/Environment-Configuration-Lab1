@@ -3,7 +3,7 @@
 # 1 Create dev and prod environment and configurations
   # 1.1 Define the development and production environments using namespaces.
   kubectl create namespace production
-  # 1. 2Configure Environment-Specific ConfigMaps
+  # 1. 2 Configure Environment-Specific ConfigMaps
   kubectl create configmap app-config \
     --from-literal=APP_ENV=production \
     --namespace=production
@@ -59,7 +59,7 @@ sed -e 's/PLACEHOLDER_NAMESPACE/production/‘ \
 
 kubectl apply -f production-deployment.yaml
 
-# 8 Expose the stagin environment
+# 8 Expose the production environment
 kubectl expose deployment nginx-app \
   --type=NodePort \
   --name=nginx-service \
